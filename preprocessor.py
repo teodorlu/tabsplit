@@ -13,7 +13,7 @@ def main():
 
 def parsepayment(payment):
 	payer = payment[0]
-	amount = payment[2]
+	amount = int(payment[2])
 	leechers = payment[4:]
 	return (payer, amount, leechers)
 
@@ -21,13 +21,16 @@ def parsepayment(payment):
 def calculatemoney(payments):
 	d = {}
 	for payment in payments:
-		payer = payment[0]
-		leechers = payment[2]
+		(payer, amount, leechers) = payment
 		for person in [ payer ] + leechers:
 			if not person in d:
 				d[person] = 0
 
-	return {'Teodor': 40, "Erik": 60}
+		d[payer] += amount
+		for l in leechers:
+			d[l] -= amount / len(leechers)
+
+	return d
 
 if __name__ == "__main__":
 	main()
