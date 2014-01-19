@@ -7,8 +7,15 @@ def main():
 		if len(l) > 1 and l[0] != "#":
 			infolist = l.strip().replace(',', '').split()
 			data.append(infolist)
-	payments = map(parsepayment, data)
-	moneystate = calculatemoney(payments)
+	# payments = map(parsepayment, data)
+	payments = []
+	for d in data:
+		try:
+			payments.append(parsepayment(d))
+		except Exception, e:
+			stderr.write("Cannot parse line: " + ",".join(d) + "\n")
+			raise error("Invalid parsing")
+	moneystate = calculatebalance(payments)
 	for (person, money) in moneystate.iteritems():
 		print (person + ": " + str(money))
 
@@ -31,7 +38,7 @@ def parsepayment(payment):
 	return (payer, amount, leechers)
 
 # Name of a person's amount of money, plus or minus?
-def calculatemoney(payments):
+def calculatebalance(payments):
 	d = {}
 	for payment in payments:
 		(payer, amount, leechers) = payment
@@ -49,4 +56,4 @@ if __name__ == "__main__":
 	try:
 		main()
 	except Exception, e:
-		stderr.write("Error in your input format. Please review the input file.")
+		stderr.write("Error in your input format. Exiting.\n")
