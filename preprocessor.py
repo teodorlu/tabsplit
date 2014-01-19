@@ -4,8 +4,9 @@ from sys import stdin, stderr
 def main():
 	data = [];
 	for l in stdin:
-		infolist = l.strip().replace(',', '').split()
-		data.append(infolist)
+		if len(l) > 1 and l[0] != "#":
+			infolist = l.strip().replace(',', '').split()
+			data.append(infolist)
 	payments = map(parsepayment, data)
 	moneystate = calculatemoney(payments)
 	for (person, money) in moneystate.iteritems():
