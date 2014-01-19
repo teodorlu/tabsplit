@@ -13,7 +13,7 @@ def main():
 
 def parsepayment(payment):
 	payer = payment[0]
-	amount = int(payment[2])
+	amount = float(payment[2])
 	leechers = payment[4:]
 	return (payer, amount, leechers)
 
