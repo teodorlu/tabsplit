@@ -3,7 +3,7 @@ Tabsplit
 
 Splits a tab based on an easily readable input file.
 
-Usage: `./preprocessor.py < sampleinput.tab`
+Usage: `./preprocessor.py < sampleinput.tab | runhaskell processor.hs`
 
 ## TODO
 
