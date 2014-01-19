@@ -1,2 +1,3 @@
 #/bin/sh
-python2 preprocessor.py | runhaskell processor.hs
+MYDIR="$(dirname "$(readlink -f "$0")")"
+python2 $MYDIR/preprocessor.py | runhaskell $MYDIR/processor.hs
