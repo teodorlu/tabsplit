@@ -3,7 +3,7 @@ Tabsplit
 
 Splits a tab based on an easily readable input file.
 
-Usage: `./tabsplit.sh`
+Usage: `./tabsplit.sh < sampleinput.tab`
 
 - Input format:
   - Names start with a capital letter
