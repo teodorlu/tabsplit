@@ -9,9 +9,12 @@ def main():
 	payments = map(parsepayment, data)
 	moneystate = calculatemoney(payments)
 	for (person, money) in moneystate.iteritems():
-		print person + ": " + str(money)
+		print (person + ": " + str(money))
 
 def parsepayment(payment):
+	isperson = lambda w: w[0].istitle()
+	people = filter(isperson, payment)
+	print people
 	payer = payment[0]
 	amount = float(payment[2])
 	leechers = payment[4:]
