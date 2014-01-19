@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-from sys import stdin
+from sys import stdin, stderr
 
 def main():
 	data = [];
@@ -45,4 +45,7 @@ def calculatemoney(payments):
 	return d
 
 if __name__ == "__main__":
-	main()
+	try:
+		main()
+	except Exception, e:
+		stderr.write("Error in your input format. Please review the input file.")
