@@ -11,13 +11,22 @@ def main():
 	for (person, money) in moneystate.iteritems():
 		print (person + ": " + str(money))
 
+def isnumber(s):
+	try:
+		float(s)
+		return True
+	except ValueError:
+		return False
+
 def parsepayment(payment):
 	isperson = lambda w: w[0].istitle()
 	people = filter(isperson, payment)
-	print people
-	payer = payment[0]
-	amount = float(payment[2])
-	leechers = payment[4:]
+	start = payment.index(people[0])
+	numbers = filter(isnumber, payment[start:])
+
+	payer = people[0]
+	amount = float(numbers[0])
+	leechers = people[1:]
 	return (payer, amount, leechers)
 
 # Name of a person's amount of money, plus or minus?
