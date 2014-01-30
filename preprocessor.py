@@ -2,11 +2,19 @@
 from sys import stdin, stderr
 
 def main():
-	data = [];
+	data = []
+	aliases = {}
 	for l in stdin:
 		if len(l) > 1 and l[0] != "#":
-			infolist = l.strip().replace(',', '').split()
-			data.append(infolist)
+                        l = l.replace(',', '')
+			if l[:6] == "alias ":
+				s = l.split('=')
+				alias = s[0][6:].strip()
+				replacement = s[1].strip()
+				aliases[alias] = replacement
+			else:
+				infolist = replacealias(l.strip(), aliases).split()
+				data.append(infolist)
 	# payments = map(parsepayment, data)
 	payments = []
 	for d in data:
@@ -18,6 +26,17 @@ def main():
 	moneystate = calculatebalance(payments)
 	for (person, money) in moneystate.iteritems():
 		print (person + ": " + str(money))
+
+def replacealias(text, aliasdict):
+	text = text.split()
+	newtext = []
+	for word in text:
+		if word in aliasdict:
+			newword = aliasdict[word]
+		else:
+			newword = word
+                newtext.append(newword)
+	return ' '.join(newtext)
 
 def isnumber(s):
 	try:
