@@ -9,12 +9,12 @@ person = fst
 
 findpayments :: (Num a, Ord a) => [(String, a)] -> [(String, a)] -> [(String, String, a)]
 findpayments (payer:xs) (payee:ys)
-    | (abs . balance) payer > (abs . balance) payee = first:(findpayments ((person payer, (balance payer) + amount):xs) ys)
-    | (abs . balance) payer < (abs . balance) payee = first:(findpayments xs ((person payee, (balance payee) - amount):ys))
+    | - balance payer > balance payee = first:(findpayments ((person payer, (balance payer) + amount):xs) ys)
+    | - balance payer < balance payee = first:(findpayments xs ((person payee, (balance payee) - amount):ys))
     | otherwise                                     = first:(findpayments xs ys)
     where
        first = (person payer, person payee, amount)
-       amount = min ((abs . balance) payer) (balance payee)
+       amount = min (- balance payer) (balance payee)
 findpayments [] _ = []
 findpayments _ [] = []
 
