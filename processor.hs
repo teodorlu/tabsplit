@@ -1,11 +1,11 @@
 import Data.List
 import Data.List.Split
 
-maketwolists :: (Num a, Ord a) => [(String, a)] -> ([(String, a)], [(String, a)])
-maketwolists = partition (\x -> balance x <= 0)
-
 balance = snd
 person = fst
+
+maketwolists :: (Num a, Ord a) => [(String, a)] -> ([(String, a)], [(String, a)])
+maketwolists = partition (\x -> balance x <= 0)
 
 findpayments :: (Num a, Ord a) => [(String, a)] -> [(String, a)] -> [(String, String, a)]
 findpayments (payer:xs) (payee:ys)
@@ -20,4 +20,4 @@ findpayments _ [] = []
 
 main = do
     a <- getContents
-    putStrLn $ unlines $ map (\(x,y,z) -> x ++ " -> " ++ y ++ ": " ++  show z) $ uncurry findpayments $ maketwolists $ map ((\(x:y:ys) -> (x, read y :: Float)) . splitOn ":") (lines a)
+    putStrLn . unlines . map (\(x,y,z) -> x ++ " -> " ++ y ++ ": " ++  show z) . uncurry findpayments . maketwolists $ map ((\(x:y:ys) -> (x, read y :: Float)) . splitOn ":") (lines a)
