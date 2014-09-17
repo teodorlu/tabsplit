@@ -4,20 +4,20 @@ import Data.List.Split
 balance = snd
 person = fst
 
-maketwolists :: (Num a, Ord a) => [(String, a)] -> ([(String, a)], [(String, a)])
-maketwolists = partition (\x -> balance x <= 0)
+makeTwoLists :: [(a, Float)] -> ([(a, Float)], [(a, Float)])
+makeTwoLists = partition (\x -> balance x <= 0)
 
-findpayments :: (Num a, Ord a) => [(String, a)] -> [(String, a)] -> [(String, String, a)]
-findpayments (payer:xs) (payee:ys)
-    | - balance payer > balance payee = first:findpayments ((person payer, balance payer + amount):xs) ys
-    | - balance payer < balance payee = first:findpayments xs ((person payee, balance payee - amount):ys)
-    | otherwise                                     = first:findpayments xs ys
+findPayments :: (Ord b, Num b) => [(a, b)] -> [(a1, b)] -> [(a, a1, b)]
+findPayments (payer:xs) (payee:ys)
+    | - balance payer > balance payee = first:findPayments ((person payer, balance payer + amount):xs) ys
+    | - balance payer < balance payee = first:findPayments xs ((person payee, balance payee - amount):ys)
+    | otherwise                                     = first:findPayments xs ys
     where
        first = (person payer, person payee, amount)
        amount = min (- balance payer) (balance payee)
-findpayments [] _ = []
-findpayments _ [] = []
+findPayments [] _ = []
+findPayments _ [] = []
 
 main = do
     a <- getContents
-    putStrLn . unlines . map (\(x,y,z) -> x ++ " -> " ++ y ++ ": " ++  show z) . uncurry findpayments . maketwolists $ map ((\(x:y:ys) -> (x, read y :: Float)) . splitOn ":") (lines a)
+    putStr . unlines . map (\(x,y,z) -> x ++ " -> " ++ y ++ ": " ++  show z) . uncurry findPayments . makeTwoLists $ map ((\(x:y:ys) -> (x, read y :: Float)) . splitOn ":") (lines a)
